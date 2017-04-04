@@ -1,2 +1,16 @@
 Task 4 steps:
 
+	val text = sc.textFile("data_input")
+	val outlinks = text.map(line => (line.split("\t")(0), line.split("\t")(1)))
+	val secondHop = text.map(line => (line.split("\t")(1), line.split("\t")(0)))
+	
+
+
+
+
+
+
+
+
+	val secondIDs = secondHop.groupByKeys()
+
