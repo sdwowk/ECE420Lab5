@@ -1,7 +1,7 @@
 Task 1 steps:
 	val rdd = sc.textFile("data_input")
-	val inLinks = rdd.map(line => line.replace("(","").replace(")","").split(",")).map(word =>(word, 1)).reduceByKey(_ + _)
-	val maxInLinks =  inLinks.max()(new Ordering[Tuple2[String, Int]](){ override def compare(x: (String, Int), y: (String, Int)): Int = Ordering[Int].compare(x._2, y._2)})
+	val inLinks = rdd.map(line => line.replace("(","").replace(")","").split(",")(0)).map(word =>(word, 1)).reduceByKey(_ + 1)
+	val result =  inLinks.max()(new Ordering[Tuple2[String, Int]](){ override def compare(x: (String, Int), y: (String, Int)): Int = Ordering[Int].compare(x._2, y._2)})
 
-	//RETURNS maxInLinks: (String, Int) = (7,30871)
+	//RETURNS result: (String, Int) = (7,30870)
 
