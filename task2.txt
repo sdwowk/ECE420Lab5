@@ -1,2 +1,10 @@
 Task 2 steps:
 
+	val text = sc.textFile("data_input")
+	val inNeighbours = text.map(line => (line.split("\t")(0), line.split("\t")(1)))
+	val outNeighbours = text.map(line => (line.split("\t")(1), line.split("\t")(0)))
+	val inNodes = inNeighbours.groupByKey()
+	val outNodes = outNeighbours.groupByKey()
+	val result = inNodes.join(outNodes)
+
+	// result now holds all the nodes as keys and list of their neighbours as values
