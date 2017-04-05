@@ -4,12 +4,11 @@ Task 4 steps:
 	val text = sc.textFile("data_input")
 	val outlinks = text.map(line => (line.split("\t")(0), line.split("\t")(1)))
 	val secondHops = new ListBuffer[(String,String)]()
+	outlinks.collect().foreach(line => secondHops+= ((line._1,line._2)))
 	outlinks.collect().foreach(line => outlinks.collect().foreach(hop => 
 														{if (line._2 == hop._1){ 
 														secondHops+= ((line._1,hop._2))}else None}))
 	val secondHopList = secondHops.toList
-	val almostDone = sc.parallelize(secondHopList.distinct)
-	outlinks.union(almostDone)
-	val result = outlinks
+	val result = sc.parallelize(secondHopList)
 
 	// result now holds the array (RDD) of tuples with all of the first and second hops available from each node
