@@ -1,16 +1,16 @@
 Task 4 steps:
-
+	
+	import scala.collection.mutable.ListBuffer
 	val text = sc.textFile("data_input")
 	val outlinks = text.map(line => (line.split("\t")(0), line.split("\t")(1)))
 	val secondHop = text.map(line => (line.split("\t")(1), line.split("\t")(0)))
-	
+	val secondHops = new ListBuffer[(String,String)]()
+	outlinks.collect().foreach(line => secondHop.foreach(hop => 
+														{if (line._2 == hop._1){ 
+														secondHops+= ((line._1,hop._2))}else None}))
+	val secondHopList = secondHops.toList
+	val almostDone = sc.parallelize(secondHopList)
+	outlinks.union(almostDone)
+	val result = outlinks
 
-
-
-
-
-
-
-
-	val secondIDs = secondHop.groupByKeys()
-
+	// result now holds the array (RDD) of tuples with all of the first and second hops available from each node
