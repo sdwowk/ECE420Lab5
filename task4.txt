@@ -3,13 +3,12 @@ Task 4 steps:
 	import scala.collection.mutable.ListBuffer
 	val text = sc.textFile("data_input")
 	val outlinks = text.map(line => (line.split("\t")(0), line.split("\t")(1)))
-	val secondHop = text.map(line => (line.split("\t")(1), line.split("\t")(0)))
 	val secondHops = new ListBuffer[(String,String)]()
-	outlinks.collect().foreach(line => secondHop.foreach(hop => 
-														{if (line._2 == hop._1){ 
+	outlinks.collect().foreach(line => outlinks.collect().foreach(hop => 
+														{if (line._2 == hop._1 && line._1 != hop._2){ 
 														secondHops+= ((line._1,hop._2))}else None}))
 	val secondHopList = secondHops.toList
-	val almostDone = sc.parallelize(secondHopList)
+	val almostDone = sc.parallelize(secondHopList.distinct)
 	outlinks.union(almostDone)
 	val result = outlinks
 
