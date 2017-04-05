@@ -1,6 +1,5 @@
 Task 3 steps:
 	val text = sc.textFile("data_input")
 	val outlinks = text.map(line => line.split("\t")(0)).map(word =>(word, 1)).reduceByKey(_ + _)
-	val result =  inLinks.max()(new Ordering[Tuple2[String, Int]](){ override def compare(x: (String, Int), y: (String, Int)): Int = Ordering[Int].compare(x._2, y._2)})
-
-	//RETURNS result: (String, Int) = (391,4)
+	val result = outlinks.collect().filter(line => line._2 == outlinks.collect().maxBy(_._2)._2)
+	//RETURNS result: Array[(String, Int)] = Array((554,4), (391,4), (748,4), (447,4))
